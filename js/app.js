@@ -27,6 +27,19 @@ function toggleExpenseRateField() {
 employmentTypeSelect.addEventListener("change", toggleExpenseRateField);
 toggleExpenseRateField();
 
+function buildCrossLinkBanners(input) {
+  const banners = [
+    { href: "../insurance-checker/", text: "手取り額が分かったら、必要な保障を保険診断で確認する →" },
+  ];
+  if (input.employmentType === "self_employed") {
+    banners.push({ href: "../subsidy-checker/", text: "自営業・フリーランスの方が使える公的な給付金・補助金を確認する →" });
+  } else {
+    banners.push({ href: "../sidejob-checker/", text: "収入を増やす副業ジャンルを診断する →" });
+    banners.push({ href: "../career-checker/", text: "収入アップにつながる転職エージェントを診断する →" });
+  }
+  return banners.map((b) => `<a class="cross-link-banner" href="${escapeHtml(b.href)}">${escapeHtml(b.text)}</a>`).join("");
+}
+
 function buildResultHtml(r, input) {
   const rows = [];
   if (input.employmentType === "self_employed") {
@@ -53,6 +66,9 @@ function buildResultHtml(r, input) {
     </div>
     <div class="result-breakdown">
       ${rowsHtml}
+    </div>
+    <div class="result-cross-links">
+      ${buildCrossLinkBanners(input)}
     </div>
   `;
 }

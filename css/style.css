@@ -426,6 +426,16 @@ html, body {
 
 .cross-link-banner:hover { opacity: 0.85; }
 
+.result-cross-links {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.result-cross-links .cross-link-banner {
+  margin-top: 0;
+}
+
 .form-field {
   text-align: left;
   margin-bottom: 16px;
