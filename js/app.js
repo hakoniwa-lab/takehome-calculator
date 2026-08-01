@@ -30,6 +30,7 @@ toggleExpenseRateField();
 function buildCrossLinkBanners(input) {
   const banners = [
     { href: "../insurance-checker/", text: "手取り額が分かったら、必要な保障を保険診断で確認する →" },
+    { href: "../furusato-simulator/", text: "実質2,000円で寄附できるふるさと納税の上限額も計算する →" },
   ];
   if (input.employmentType === "self_employed") {
     banners.push({ href: "../subsidy-checker/", text: "自営業・フリーランスの方が使える公的な給付金・補助金を確認する →" });
