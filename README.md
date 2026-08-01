@@ -57,7 +57,7 @@ takehome-calculator/
 
 - **表示広告**: 結果画面下部の`#ad-slot-result-bottom`(広告プレースホルダ)にAdSenseコードを差し込む想定。AdSense未承認のため2026-08-01時点では空のまま。承認が下りたら広告コードを埋め込む。誤クリック誘発を避けるため、フォーム操作の邪魔にならない結果画面下の1箇所のみに絞っている。
 - **他アプリへの送客(クロスリンク)**: 計算結果画面に、`employment_type`に応じたクロスリンクバナーを表示する(`js/app.js`の`buildCrossLinkBanners`)。全ケース共通でinsurance-checkerへ、`self_employed`ならsubsidy-checkerへ(自営業は傷病手当金等が薄いため公的制度の確認を促す)、`employee`ならsidejob-checker・career-checkerへ(収入を増やす副業・転職)。
-- **メールリード獲得フォーム**: `#lead-form`(現在は送信先未設定のダミー、他アプリと同じ「準備中」パターン)。将来的にメール配信サービスと連携すれば、家計系コンテンツやKindle本等への送客リストとして活用できる。
+- **メールリード獲得フォーム**: `#lead-form`。2026-08-01にButtondown(アカウント名`hakoniwalab`)と接続済み(実装の詳細はsubsidy-checkerのREADME参照)。家計系コンテンツやKindle本等への送客リストとして活用する想定。
 
 ## デプロイ
 
