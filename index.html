@@ -8,6 +8,7 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
 <link rel="canonical" href="https://hakoniwa-lab.github.io/takehome-calculator/">
 <link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"会社員と自営業で手取り額の計算方法は違いますか？","acceptedAnswer":{"@type":"Answer","text":"はい。会社員は厚生年金・協会けんぽ・雇用保険料が給与から天引きされますが、自営業・フリーランスは国民年金・国民健康保険料を自分で納付し、必要経費を差し引いた所得を基準に税額が計算されます。本シミュレーターは就業形態に応じてこの違いを反映しています。"}},{"@type":"Question","name":"ボーナス(賞与)は計算に含まれますか？","acceptedAnswer":{"@type":"Answer","text":"入力する額面年収に賞与を含めた年間の総支給額を入力してください。月給とボーナスを分けて計算する機能は現在提供していません。"}},{"@type":"Question","name":"扶養家族がいると手取り額はどう変わりますか？","acceptedAnswer":{"@type":"Answer","text":"扶養家族の人数に応じて所得税・住民税の扶養控除が適用され、税負担が軽くなります。扶養人数を入力すると、その分を差し引いた概算額が表示されます。"}},{"@type":"Question","name":"この計算結果はそのまま確定申告に使えますか？","acceptedAnswer":{"@type":"Answer","text":"使えません。本シミュレーターはあくまで概算把握を目的としたものです。正確な金額は源泉徴収票や税理士にご確認ください。"}}]}</script>
 </head>
 <body>
 <div id="app" class="app">
@@ -78,6 +79,48 @@
     </section>
 
   </main>
+
+  <section class="article" aria-labelledby="about-heading">
+    <div class="card card--article">
+      <h2 id="about-heading">手取り年収シミュレーターとは？</h2>
+      <p>求人票や契約書に書かれている「額面年収」と、実際に振り込まれる「手取り額」の差は、社会保険料・所得税・住民税などが差し引かれるため意外と大きくなります。会社員と自営業・フリーランスでは加入する社会保険の種類(厚生年金・協会けんぽ か 国民年金・国民健康保険)も異なり、手取り額の計算方法も変わります。本シミュレーターでは、就業形態・額面年収・扶養人数・年齢を入力するだけで、手取り額の目安をその場で計算します。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>計算方法について</h2>
+      <p>会社員の場合は厚生年金・健康保険(協会けんぽ)・雇用保険料と所得税・住民税を、自営業・フリーランスの場合は国民年金・国民健康保険料(必要経費控除後の所得を基準)と所得税・住民税を、それぞれ一般的な税率・保険料率に基づいて概算しています。40歳以上65歳未満の場合は介護保険料も加算されます。</p>
+      <ul>
+        <li>入力内容はすべてブラウザ内で処理され、サーバーへの送信・保存は行いません</li>
+        <li>実際の金額は加入する健康保険組合・お住まいの自治体・年度・各種控除の適用状況により異なります</li>
+        <li>正確な金額を確認したい場合は、源泉徴収票や税理士・社会保険労務士にご相談ください</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item">
+        <summary>会社員と自営業で手取り額の計算方法は違いますか？</summary>
+        <p>はい。会社員は厚生年金・協会けんぽ・雇用保険料が給与から天引きされますが、自営業・フリーランスは国民年金・国民健康保険料を自分で納付し、必要経費を差し引いた所得を基準に税額が計算されます。本シミュレーターは就業形態に応じてこの違いを反映しています。</p>
+      </details>
+      <details class="faq-item">
+        <summary>ボーナス(賞与)は計算に含まれますか？</summary>
+        <p>入力する額面年収に賞与を含めた年間の総支給額を入力してください。月給とボーナスを分けて計算する機能は現在提供していません。</p>
+      </details>
+      <details class="faq-item">
+        <summary>扶養家族がいると手取り額はどう変わりますか？</summary>
+        <p>扶養家族の人数に応じて所得税・住民税の扶養控除が適用され、税負担が軽くなります。扶養人数を入力すると、その分を差し引いた概算額が表示されます。</p>
+      </details>
+      <details class="faq-item">
+        <summary>この計算結果はそのまま確定申告に使えますか？</summary>
+        <p>使えません。本シミュレーターはあくまで概算把握を目的としたものです。正確な金額は源泉徴収票や税理士にご確認ください。</p>
+      </details>
+    </div>
+
+    <div class="card card--article">
+      <h2>運営者について</h2>
+      <p>本サイトはHAKONIWA LAB(運営者: 灯家)が個人で企画・開発・運営しています。ほかにもふるさと納税シミュレーターや副業の税金シミュレーターなど、暮らしとお金にまつわる診断・計算ツールを複数公開しています。</p>
+    </div>
+  </section>
 
   <footer class="app-footer">
     <p>本サイトは手取り額の概算把握を目的としており、正確な税額・保険料額を保証するものではありません。実際の手続き・申告は公式情報・専門家にご確認ください。「PR」表記のあるリンクにはプロモーション(アフィリエイト広告)が含まれます。</p>
