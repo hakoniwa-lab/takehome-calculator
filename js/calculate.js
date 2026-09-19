@@ -3,17 +3,42 @@
  * すべて「目安」の概算であり、実際の控除・保険料率は自治体・加入保険者・年度により異なる。
  */
 
-// 給与所得控除(令和2年分以降の速算表)
+// どの年の税金か: 令和8年(2026年)分の所得税と、その所得にかかる令和9年度の住民税。
+// 令和8年度税制改正(基礎控除・給与所得控除の引上げ)を反映している。
+// 出典: 国税庁 No.1410 給与所得控除・No.1199 基礎控除、財務省「令和8年度税制改正の大綱」
+
+// 給与所得控除(令和8年分・令和9年分)。最低保障額は本則69万円＋令和8・9年の特例5万円＝74万円。
+// 住民税も令和9年度分・令和10年度分は同じ74万円(大綱の地方税(1))。
+// ※ 収入660万円未満は本来「所得税法別表第五」の4,000円刻みの表を使うが、概算なので式で計算する
 function salaryIncomeDeduction(income) {
-  if (income <= 1625000) return 550000;
-  if (income <= 1800000) return income * 0.4 - 100000;
+  if (income <= 2200000) return Math.min(income, 740000);
   if (income <= 3600000) return income * 0.3 + 80000;
   if (income <= 6600000) return income * 0.2 + 440000;
   if (income <= 8500000) return income * 0.1 + 1100000;
   return 1950000;
 }
 
-// 所得税の超過累進税率表(2024年分、復興特別所得税2.1%は別途上乗せ)
+// 所得税の基礎控除(令和8年分・令和9年分)。本人の合計所得金額で変わる。
+// 本則62万円に、合計所得489万円以下は42万円・489万円超655万円以下は5万円を加算する特例。
+function incomeTaxBasicDeduction(totalIncome) {
+  if (totalIncome <= 4890000) return 1040000;
+  if (totalIncome <= 6550000) return 670000;
+  if (totalIncome <= 23500000) return 620000;
+  if (totalIncome <= 24000000) return 480000;
+  if (totalIncome <= 24500000) return 320000;
+  if (totalIncome <= 25000000) return 160000;
+  return 0;
+}
+
+// 住民税の基礎控除。所得税と違って引き上げられておらず、43万円のまま。
+function residentTaxBasicDeduction(totalIncome) {
+  if (totalIncome <= 24000000) return 430000;
+  if (totalIncome <= 24500000) return 290000;
+  if (totalIncome <= 25000000) return 150000;
+  return 0;
+}
+
+// 所得税の超過累進税率表(平成27年分以後。令和8年分も同じ。復興特別所得税2.1%は別途上乗せ)。出典: 国税庁 No.2260
 const INCOME_TAX_BRACKETS = [
   { limit: 1950000, rate: 0.05, deduction: 0 },
   { limit: 3300000, rate: 0.1, deduction: 97500 },
@@ -43,21 +68,22 @@ function calcEmployee(input) {
   const socialInsurance = Math.round(grossIncome * (healthRate + careRate + pensionRate + employmentRate));
 
   const salaryDeduction = salaryIncomeDeduction(grossIncome);
-  const basicDeductionIncomeTax = 480000;
+  const employmentIncome = Math.max(0, grossIncome - salaryDeduction); // 給与所得＝合計所得金額(基礎控除の判定に使う)
+  const basicDeductionIncomeTax = incomeTaxBasicDeduction(employmentIncome);
   const dependentDeductionIncomeTax = dependents * 380000;
 
   const taxableIncomeForIncomeTax = Math.max(
     0,
-    grossIncome - salaryDeduction - socialInsurance - basicDeductionIncomeTax - dependentDeductionIncomeTax
+    employmentIncome - socialInsurance - basicDeductionIncomeTax - dependentDeductionIncomeTax
   );
   const tax = incomeTax(taxableIncomeForIncomeTax);
 
   // 住民税(所得割10%+均等割5,000円目安。基礎控除43万円・扶養控除33万円/人)
-  const basicDeductionResidentTax = 430000;
+  const basicDeductionResidentTax = residentTaxBasicDeduction(employmentIncome);
   const dependentDeductionResidentTax = dependents * 330000;
   const taxableIncomeForResidentTax = Math.max(
     0,
-    grossIncome - salaryDeduction - socialInsurance - basicDeductionResidentTax - dependentDeductionResidentTax
+    employmentIncome - socialInsurance - basicDeductionResidentTax - dependentDeductionResidentTax
   );
   const residentTax = taxableIncomeForResidentTax > 0 ? Math.round(taxableIncomeForResidentTax * 0.1) + 5000 : 0;
 
@@ -91,7 +117,7 @@ function calcSelfEmployed(input) {
 
   const socialInsurance = nationalPension + nationalHealthInsurance;
 
-  const basicDeductionIncomeTax = 480000;
+  const basicDeductionIncomeTax = incomeTaxBasicDeduction(businessIncome); // 事業所得＝合計所得金額
   const dependentDeductionIncomeTax = dependents * 380000;
   const taxableIncomeForIncomeTax = Math.max(
     0,
@@ -99,7 +125,7 @@ function calcSelfEmployed(input) {
   );
   const tax = incomeTax(taxableIncomeForIncomeTax);
 
-  const basicDeductionResidentTax = 430000;
+  const basicDeductionResidentTax = residentTaxBasicDeduction(businessIncome);
   const dependentDeductionResidentTax = dependents * 330000;
   const taxableIncomeForResidentTax = Math.max(
     0,
