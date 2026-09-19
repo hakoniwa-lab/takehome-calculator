@@ -51,7 +51,7 @@ function buildResultHtml(r, input) {
     rows.push(["国民年金・国民健康保険料(概算)", "− " + yen(r.socialInsurance)]);
   } else {
     rows.push(["額面年収", yen(r.grossIncome)]);
-    rows.push(["社会保険料(健康保険・厚生年金・雇用保険)", "− " + yen(r.socialInsurance)]);
+    rows.push(["社会保険料(健康保険・子ども子育て支援金・厚生年金・雇用保険)", "− " + yen(r.socialInsurance)]);
   }
   rows.push(["所得税(概算)", "− " + yen(r.incomeTax)]);
   rows.push(["住民税(概算)", "− " + yen(r.residentTax)]);

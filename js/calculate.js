@@ -61,11 +61,13 @@ function calcEmployee(input) {
   const { grossIncome, age40to64, dependents } = input;
 
   // 社会保険料(協会けんぽ全国平均目安・厚生年金・雇用保険。標準報酬月額表の等級は考慮せず年収に定率適用する簡易計算)
-  const healthRate = 0.0499; // 健康保険料(従業員負担分、全国平均目安)
-  const careRate = age40to64 ? 0.008 : 0; // 介護保険料(40〜64歳)
-  const pensionRate = 0.0915; // 厚生年金保険料(従業員負担分、全国一律)
-  const employmentRate = 0.006; // 雇用保険料(従業員負担分、2024年度一般事業)
-  const socialInsurance = Math.round(grossIncome * (healthRate + careRate + pensionRate + employmentRate));
+  // 料率は2026年度(令和8年度)。本人負担は労使折半の半分
+  const healthRate = 0.0495; // 健康保険料(協会けんぽ全国平均9.90%の半分)
+  const childSupportRate = 0.00115; // 子ども・子育て支援金(0.23%の半分。2026年4月分から健康保険料と一緒に徴収)
+  const careRate = age40to64 ? 0.0081 : 0; // 介護保険料(40〜64歳。1.62%の半分)
+  const pensionRate = 0.0915; // 厚生年金保険料(18.3%の半分。2017年9月から固定)
+  const employmentRate = 0.005; // 雇用保険料(一般の事業の労働者負担 5/1,000)
+  const socialInsurance = Math.round(grossIncome * (healthRate + childSupportRate + careRate + pensionRate + employmentRate));
 
   const salaryDeduction = salaryIncomeDeduction(grossIncome);
   const employmentIncome = Math.max(0, grossIncome - salaryDeduction); // 給与所得＝合計所得金額(基礎控除の判定に使う)
@@ -108,11 +110,12 @@ function calcSelfEmployed(input) {
   const blueReturnDeduction = 650000; // 青色申告特別控除(要件を満たす場合の上限額を仮定)
   const businessIncome = Math.max(0, grossIncome - expenses - blueReturnDeduction);
 
-  // 国民年金保険料(2024年度目安、定額)
-  const nationalPension = 204000;
+  // 国民年金保険料(2026年度 月17,920円×12か月、定額)
+  const nationalPension = 215040;
 
   // 国民健康保険料(自治体差が非常に大きいため、事業所得の約10%を目安とし上限額でキャップ)
-  const nationalHealthInsuranceCap = 1060000; // 医療分+支援分+介護分の年間上限目安(2024年度水準)
+  // 上限は2026年度の賦課限度額: 基礎67万+後期高齢者支援金26万+介護17万+子ども・子育て支援3万=113万円
+  const nationalHealthInsuranceCap = 1130000;
   const nationalHealthInsurance = Math.min(nationalHealthInsuranceCap, Math.round(businessIncome * 0.1));
 
   const socialInsurance = nationalPension + nationalHealthInsurance;
